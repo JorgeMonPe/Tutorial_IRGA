@@ -1,0 +1,50 @@
+# Limpiar datos
+En la gráfica anterior hemos visto los datos "en bruto" que ha registrado el IRGA.
+
+Sim embargo, tenemos muchos valores iguales consecutivos. Podemos hacer la media del tiempo y usar un solo punto. 
+
+```{r}
+#I'm going to reduce the number of points
+#when a cocnentration remains constante i'm going to use just one point in the middle
+reduce_points <- function(data){
+  data$rep <- NA
+  i <- 1
+  for(p in 1:nrow(data)){
+    j <- i+1
+    if(j <= nrow(data)){
+      while (data$CO2_ppm[i] == data$CO2_ppm[j]) {
+        data$rep[j-1]<-i
+        j <- j+1
+        if(is.na(data$CO2_ppm[j]))
+          break
+      }
+      data$rep[j-1]<-i
+      i <- j
+    }
+  }
+  result <- data %>% group_by(rep) %>% summarise(across(where(is.numeric), ~mean(.)), across(Hour, ~seconds_to_period(mean(.))), across(Date, ~first(.)))
+  return(result)
+}
+#Now, we apply the function
+Reduced_data <- Data_file %>% group_by(Plot) %>% group_modify(~reduce_points(data=.x))
+```
+
+Por otro lado, vemos que el IRGA al final de algunos plots mete muchos de puntos que caen rápidamente. Para quitar esos artefacto vamos a eliminar las filas que vayan más allá del segundo 180 (o el tiempo que nosotros hayamos definido a la hora hacer las cámaras de respiración).
+
+```{r}
+#Remove rows beyond second 180
+Reduced_data <- Reduced_data %>% filter(Seconds <= 180)
+```
+
+Vamos a ver cómo ha quedado:
+```{r}
+ggplot(Reduced_data, aes(x = DT, y = CO2_ppm))+
+  geom_point()+
+  facet_wrap(~Plot, scales = 'free')
+```
+
+Una vez limpiados los datos, guardamos la tabla en un archivo por si necesitamos trabajar con ella más tarde.
+```{r}
+write_csv(Reduced_data, "Data_cleaned.csv")
+```
+

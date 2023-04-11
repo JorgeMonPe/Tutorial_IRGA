@@ -1,0 +1,20 @@
+# Visualizar datos
+```{r, include=FALSE}
+library(tidyverse)
+Data_file <- read_csv("Data_file.csv")
+```
+
+Una vez que hemos seleccionado las columnas qu enos interesan del archivo y hemos dado un poco de forma a los datos, vamos a ver que pinta tienen nuestras gráficas.
+ 
+```{r}
+#Plot 
+library(ggplot2)
+ggplot(Data_file, aes(x = DT, y = CO2_ppm))+
+  geom_point()+
+  facet_wrap(~Plot, scales = 'free')
+#Estaría interesante reducir el número de puntos de la siguiente forma:
+#Cuando hay varios valores iguales consecutivos, hacer la media del tiempo y usar un solo punto en mitad
+```
+ 
+Bien, tienen bastante buena pinta pero quizźas se pueden limpiar un poco los datos.
+ 

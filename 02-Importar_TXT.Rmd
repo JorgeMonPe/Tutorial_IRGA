@@ -1,0 +1,56 @@
+# Importar el archivo "*.TXT"
+
+¡Vamos a remangarnos! Lo primero que tenemos que hacer es importar el archivo *.TXT que nos genera el IRGA. En el [manual del analizador](https://ppsystems.com/download/technical_manuals/80061-1%20EGM4_Operation_V419.pdf) podéis encontrar la información relativa a cada una de las columnas que aparecen en el archivo.
+
+Pódeis probar con vuestro propio archivo o descargar este que os dejo de prueba [pincha aquí](https://drive.google.com/file/d/1lgz5j1yE_BMyXb6_2LZYaGYbEh8c2tG5/view?usp=share_link).
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+#Open IRGA text files
+Data_file <- read_csv('./IRGA_files/23031311.TXT', skip = 2, col_names = FALSE, comment = 'Start')
+```
+
+Vamos a ver que es lo que hemos importado:
+
+```{r}
+str(Data_file)
+```
+
+
+Ahora vamos a arreglar un poco el el data.frame para que sea más fácil como trabajar con él.
+```{r}
+#Remove rows with "End"
+Data_file <- Data_file %>% filter(X1 != "End" | X1 != "Zero")
+#Select just rows with M5
+Data_file <- Data_file %>% filter(X1 == "M5")
+#Select just column with relevant information
+#When the files is generated from a SRC process, then parameter 3 (column 20) is DT
+Data_file <- Data_file[,c(1:8,20)]
+#Change column names
+colnames(Data_file) <- c('Device',"Date",'Hour','Plot','Record_number','CO2_ppm','P_mBa','Flow',"DT")
+#remove row with NAs
+Data_file <- drop_na(Data_file, Plot)
+#Give Date format to Date column
+Data_file$Date <- as.Date(Data_file$Date, format = "%d/%m/%Y")
+#DT is repeated some times 
+#I create a new variable with difference between number record (seconds)
+Data_file <- Data_file %>% group_by(Plot) %>% mutate(Seconds = Record_number-first(Record_number))
+```
+
+```{r}
+str(Data_file)
+```
+
+Ahora tiene mejor pinta:
+
+```{r}
+knitr::kable(Data_file[1:10,], booktabs = T, format = "html") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%", height = "500px")
+```
+
+```{r, include = FALSE}
+write_csv(Data_file, "Data_file.csv")
+```
+

@@ -1,0 +1,11 @@
+# Introducción {-}
+
+Si has llegado a este tutorial, posiblemente ya tengas claro para que vas a medir las emisiones o la absorción de CO~2~ con un analizador de gases infrarrojos (IRGA). Sin embargo, ....
+
+## ¿Porqué un analiador de gases infrarrojos?
+
+En construcción...
+
+## ¿Porqué medir las emisiones o la absorción de CO~2~?
+
+En construcción...

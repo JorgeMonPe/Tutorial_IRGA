@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Limpiar datos | Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA</title>
+  <meta name="description" content="Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems." />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Limpiar datos | Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Limpiar datos | Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA" />
+  
+  <meta name="twitter:description" content="Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems." />
+  
+
+<meta name="author" content="Jorge Juan Montes Pérez" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="visualizar-datos.html"/>
+<link rel="next" href="ajuste-lineal-para-obtener-pendientes.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tutorial para estimar emisión y/o absorción de CO_2</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Sobre el tutorial</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#estructura-del-tutorial"><i class="fa fa-check"></i><b>1.1</b> Estructura del tutorial</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i>Introducción</a>
+<ul>
+<li class="chapter" data-level="1.2" data-path="introducción.html"><a href="introducción.html#porqué-un-analiador-de-gases-infrarrojos"><i class="fa fa-check"></i><b>1.2</b> ¿Porqué un analiador de gases infrarrojos?</a></li>
+<li class="chapter" data-level="1.3" data-path="introducción.html"><a href="introducción.html#porqué-medir-las-emisiones-o-la-absorción-de-co2"><i class="fa fa-check"></i><b>1.3</b> ¿Porqué medir las emisiones o la absorción de CO<sub>2</sub>?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="importar-el-archivo-.html"><a href="importar-el-archivo-.html"><i class="fa fa-check"></i><b>2</b> Importar el archivo “*.TXT”</a></li>
+<li class="chapter" data-level="3" data-path="visualizar-datos.html"><a href="visualizar-datos.html"><i class="fa fa-check"></i><b>3</b> Visualizar datos</a></li>
+<li class="chapter" data-level="4" data-path="limpiar-datos.html"><a href="limpiar-datos.html"><i class="fa fa-check"></i><b>4</b> Limpiar datos</a></li>
+<li class="chapter" data-level="5" data-path="ajuste-lineal-para-obtener-pendientes.html"><a href="ajuste-lineal-para-obtener-pendientes.html"><i class="fa fa-check"></i><b>5</b> Ajuste lineal para obtener pendientes</a></li>
+<li class="chapter" data-level="6" data-path="calcular-la-tasa-de-emisión-o-absorción.html"><a href="calcular-la-tasa-de-emisión-o-absorción.html"><i class="fa fa-check"></i><b>6</b> Calcular la tasa de emisión o absorción</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="calcular-la-tasa-de-emisión-o-absorción.html"><a href="calcular-la-tasa-de-emisión-o-absorción.html#pero-no-tenemos-ya-la-pendiente"><i class="fa fa-check"></i><b>6.1</b> ¿Pero no tenemos ya la pendiente?</a></li>
+<li class="chapter" data-level="6.2" data-path="calcular-la-tasa-de-emisión-o-absorción.html"><a href="calcular-la-tasa-de-emisión-o-absorción.html#ppm-a-mmol"><i class="fa fa-check"></i><b>6.2</b> ppm a mmol</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="limpiar-datos" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Limpiar datos<a href="limpiar-datos.html#limpiar-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En la gráfica anterior hemos visto los datos “en bruto” que ha registrado el IRGA.</p>
+<p>Sim embargo, tenemos muchos valores iguales consecutivos. Podemos hacer la media del tiempo y usar un solo punto.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="limpiar-datos.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#I&#39;m going to reduce the number of points</span></span>
+<span id="cb10-2"><a href="limpiar-datos.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#when a cocnentration remains constante i&#39;m going to use just one point in the middle</span></span>
+<span id="cb10-3"><a href="limpiar-datos.html#cb10-3" aria-hidden="true" tabindex="-1"></a>reduce_points <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb10-4"><a href="limpiar-datos.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>rep <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb10-5"><a href="limpiar-datos.html#cb10-5" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb10-6"><a href="limpiar-datos.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data)){</span>
+<span id="cb10-7"><a href="limpiar-datos.html#cb10-7" aria-hidden="true" tabindex="-1"></a>    j <span class="ot">&lt;-</span> i<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb10-8"><a href="limpiar-datos.html#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(j <span class="sc">&lt;=</span> <span class="fu">nrow</span>(data)){</span>
+<span id="cb10-9"><a href="limpiar-datos.html#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span> (data<span class="sc">$</span>CO2_ppm[i] <span class="sc">==</span> data<span class="sc">$</span>CO2_ppm[j]) {</span>
+<span id="cb10-10"><a href="limpiar-datos.html#cb10-10" aria-hidden="true" tabindex="-1"></a>        data<span class="sc">$</span>rep[j<span class="dv">-1</span>]<span class="ot">&lt;-</span>i</span>
+<span id="cb10-11"><a href="limpiar-datos.html#cb10-11" aria-hidden="true" tabindex="-1"></a>        j <span class="ot">&lt;-</span> j<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb10-12"><a href="limpiar-datos.html#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">is.na</span>(data<span class="sc">$</span>CO2_ppm[j]))</span>
+<span id="cb10-13"><a href="limpiar-datos.html#cb10-13" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span></span>
+<span id="cb10-14"><a href="limpiar-datos.html#cb10-14" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb10-15"><a href="limpiar-datos.html#cb10-15" aria-hidden="true" tabindex="-1"></a>      data<span class="sc">$</span>rep[j<span class="dv">-1</span>]<span class="ot">&lt;-</span>i</span>
+<span id="cb10-16"><a href="limpiar-datos.html#cb10-16" aria-hidden="true" tabindex="-1"></a>      i <span class="ot">&lt;-</span> j</span>
+<span id="cb10-17"><a href="limpiar-datos.html#cb10-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-18"><a href="limpiar-datos.html#cb10-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-19"><a href="limpiar-datos.html#cb10-19" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(rep) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">mean</span>(.)), <span class="fu">across</span>(Hour, <span class="sc">~</span><span class="fu">seconds_to_period</span>(<span class="fu">mean</span>(.))), <span class="fu">across</span>(Date, <span class="sc">~</span><span class="fu">first</span>(.)))</span>
+<span id="cb10-20"><a href="limpiar-datos.html#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb10-21"><a href="limpiar-datos.html#cb10-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-22"><a href="limpiar-datos.html#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Now, we apply the function</span></span>
+<span id="cb10-23"><a href="limpiar-datos.html#cb10-23" aria-hidden="true" tabindex="-1"></a>Reduced_data <span class="ot">&lt;-</span> Data_file <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Plot) <span class="sc">%&gt;%</span> <span class="fu">group_modify</span>(<span class="sc">~</span><span class="fu">reduce_points</span>(<span class="at">data=</span>.x))</span></code></pre></div>
+<p>Por otro lado, vemos que el IRGA al final de algunos plots mete muchos de puntos que caen rápidamente. Para quitar esos artefacto vamos a eliminar las filas que vayan más allá del segundo 180 (o el tiempo que nosotros hayamos definido a la hora hacer las cámaras de respiración).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="limpiar-datos.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove rows beyond second 180</span></span>
+<span id="cb11-2"><a href="limpiar-datos.html#cb11-2" aria-hidden="true" tabindex="-1"></a>Reduced_data <span class="ot">&lt;-</span> Reduced_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Seconds <span class="sc">&lt;=</span> <span class="dv">180</span>)</span></code></pre></div>
+<p>Vamos a ver cómo ha quedado:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="limpiar-datos.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Reduced_data, <span class="fu">aes</span>(<span class="at">x =</span> DT, <span class="at">y =</span> CO2_ppm))<span class="sc">+</span></span>
+<span id="cb12-2"><a href="limpiar-datos.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb12-3"><a href="limpiar-datos.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Plot, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="100%" /></p>
+<p>Una vez limpiados los datos, guardamos la tabla en un archivo por si necesitamos trabajar con ella más tarde.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="limpiar-datos.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(Reduced_data, <span class="st">&quot;Data_cleaned.csv&quot;</span>)</span></code></pre></div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="visualizar-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ajuste-lineal-para-obtener-pendientes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-Limpiar.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
