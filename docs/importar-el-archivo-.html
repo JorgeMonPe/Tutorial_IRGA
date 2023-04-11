@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Importar el archivo “*.TXT” | Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA</title>
+  <meta name="description" content="Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems." />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Importar el archivo “*.TXT” | Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Importar el archivo “*.TXT” | Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA" />
+  
+  <meta name="twitter:description" content="Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems." />
+  
+
+<meta name="author" content="Jorge Juan Montes Pérez" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introducción.html"/>
+<link rel="next" href="visualizar-datos.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tutorial para estimar emisión y/o absorción de CO_2</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Sobre el tutorial</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#estructura-del-tutorial"><i class="fa fa-check"></i><b>1.1</b> Estructura del tutorial</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i>Introducción</a>
+<ul>
+<li class="chapter" data-level="1.2" data-path="introducción.html"><a href="introducción.html#porqué-un-analiador-de-gases-infrarrojos"><i class="fa fa-check"></i><b>1.2</b> ¿Porqué un analiador de gases infrarrojos?</a></li>
+<li class="chapter" data-level="1.3" data-path="introducción.html"><a href="introducción.html#porqué-medir-las-emisiones-o-la-absorción-de-co2"><i class="fa fa-check"></i><b>1.3</b> ¿Porqué medir las emisiones o la absorción de CO<sub>2</sub>?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="importar-el-archivo-.html"><a href="importar-el-archivo-.html"><i class="fa fa-check"></i><b>2</b> Importar el archivo “*.TXT”</a></li>
+<li class="chapter" data-level="3" data-path="visualizar-datos.html"><a href="visualizar-datos.html"><i class="fa fa-check"></i><b>3</b> Visualizar datos</a></li>
+<li class="chapter" data-level="4" data-path="limpiar-datos.html"><a href="limpiar-datos.html"><i class="fa fa-check"></i><b>4</b> Limpiar datos</a></li>
+<li class="chapter" data-level="5" data-path="ajuste-lineal-para-obtener-pendientes.html"><a href="ajuste-lineal-para-obtener-pendientes.html"><i class="fa fa-check"></i><b>5</b> Ajuste lineal para obtener pendientes</a></li>
+<li class="chapter" data-level="6" data-path="calcular-la-tasa-de-emisión-o-absorción.html"><a href="calcular-la-tasa-de-emisión-o-absorción.html"><i class="fa fa-check"></i><b>6</b> Calcular la tasa de emisión o absorción</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="calcular-la-tasa-de-emisión-o-absorción.html"><a href="calcular-la-tasa-de-emisión-o-absorción.html#pero-no-tenemos-ya-la-pendiente"><i class="fa fa-check"></i><b>6.1</b> ¿Pero no tenemos ya la pendiente?</a></li>
+<li class="chapter" data-level="6.2" data-path="calcular-la-tasa-de-emisión-o-absorción.html"><a href="calcular-la-tasa-de-emisión-o-absorción.html#ppm-a-mmol"><i class="fa fa-check"></i><b>6.2</b> ppm a mmol</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="importar-el-archivo-.txt" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Importar el archivo “*.TXT”<a href="importar-el-archivo-.html#importar-el-archivo-.txt" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>¡Vamos a remangarnos! Lo primero que tenemos que hacer es importar el archivo *.TXT que nos genera el IRGA. En el <a href="https://ppsystems.com/download/technical_manuals/80061-1%20EGM4_Operation_V419.pdf">manual del analizador</a> podéis encontrar la información relativa a cada una de las columnas que aparecen en el archivo.</p>
+<p>Pódeis probar con vuestro propio archivo o descargar este que os dejo de prueba <a href="https://drive.google.com/file/d/1lgz5j1yE_BMyXb6_2LZYaGYbEh8c2tG5/view?usp=share_link">pincha aquí</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="importar-el-archivo-.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="importar-el-archivo-.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-3"><a href="importar-el-archivo-.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Open IRGA text files</span></span>
+<span id="cb1-4"><a href="importar-el-archivo-.html#cb1-4" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;./IRGA_files/23031311.TXT&#39;</span>, <span class="at">skip =</span> <span class="dv">2</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>, <span class="at">comment =</span> <span class="st">&#39;Start&#39;</span>)</span></code></pre></div>
+<p>Vamos a ver que es lo que hemos importado:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="importar-el-archivo-.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Data_file)</span></code></pre></div>
+<pre><code>## spec_tbl_df [3,430 × 22] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ X1 : chr [1:3430] &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; ...
+##  $ X2 : chr [1:3430] &quot;13/03/23&quot; &quot;13/03/23&quot; &quot;13/03/23&quot; &quot;13/03/23&quot; ...
+##  $ X3 : &#39;hms&#39; num [1:3430] 15:52:22 15:52:23 15:52:24 15:52:25 ...
+##   ..- attr(*, &quot;units&quot;)= chr &quot;secs&quot;
+##  $ X4 : num [1:3430] 1 1 1 1 1 1 1 1 1 1 ...
+##  $ X5 : num [1:3430] 553 554 555 556 557 558 559 560 561 562 ...
+##  $ X6 : num [1:3430] 416 416 417 417 417 418 418 419 419 419 ...
+##  $ X7 : num [1:3430] 1000 1000 1000 1000 1000 ...
+##  $ X8 : num [1:3430] 342 343 344 343 343 343 343 343 344 344 ...
+##  $ X9 : num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X10: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X11: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X12: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X13: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X14: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X15: num [1:3430] 31.7 31.7 31.7 31.7 31.7 31.7 31.7 31.7 31.7 31.7 ...
+##  $ X16: num [1:3430] 36.9 36.9 36.8 36.8 36.8 36.8 36.7 36.7 36.7 36.7 ...
+##  $ X17: num [1:3430] 24.4 24.4 24.4 24.4 24.4 24.4 24.4 25.4 25.4 25.4 ...
+##  $ X18: num [1:3430] 20 20 20 20 20 20 20 20 20 25 ...
+##  $ X19: num [1:3430] 0 0 0 1 1 2 2 2 2 2 ...
+##  $ X20: num [1:3430] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ X21: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ X22: num [1:3430] 0 0 0 0 0 0 0 0 0 0 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   X1 = col_character(),
+##   ..   X2 = col_character(),
+##   ..   X3 = col_time(format = &quot;&quot;),
+##   ..   X4 = col_double(),
+##   ..   X5 = col_double(),
+##   ..   X6 = col_double(),
+##   ..   X7 = col_double(),
+##   ..   X8 = col_double(),
+##   ..   X9 = col_double(),
+##   ..   X10 = col_double(),
+##   ..   X11 = col_double(),
+##   ..   X12 = col_double(),
+##   ..   X13 = col_double(),
+##   ..   X14 = col_double(),
+##   ..   X15 = col_double(),
+##   ..   X16 = col_double(),
+##   ..   X17 = col_double(),
+##   ..   X18 = col_double(),
+##   ..   X19 = col_double(),
+##   ..   X20 = col_double(),
+##   ..   X21 = col_double(),
+##   ..   X22 = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<p>Ahora vamos a arreglar un poco el el data.frame para que sea más fácil como trabajar con él.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="importar-el-archivo-.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove rows with &quot;End&quot;</span></span>
+<span id="cb4-2"><a href="importar-el-archivo-.html#cb4-2" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> Data_file <span class="sc">%&gt;%</span> <span class="fu">filter</span>(X1 <span class="sc">!=</span> <span class="st">&quot;End&quot;</span> <span class="sc">|</span> X1 <span class="sc">!=</span> <span class="st">&quot;Zero&quot;</span>)</span>
+<span id="cb4-3"><a href="importar-el-archivo-.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Select just rows with M5</span></span>
+<span id="cb4-4"><a href="importar-el-archivo-.html#cb4-4" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> Data_file <span class="sc">%&gt;%</span> <span class="fu">filter</span>(X1 <span class="sc">==</span> <span class="st">&quot;M5&quot;</span>)</span>
+<span id="cb4-5"><a href="importar-el-archivo-.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Select just column with relevant information</span></span>
+<span id="cb4-6"><a href="importar-el-archivo-.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#When the files is generated from a SRC process, then parameter 3 (column 20) is DT</span></span>
+<span id="cb4-7"><a href="importar-el-archivo-.html#cb4-7" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> Data_file[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">20</span>)]</span>
+<span id="cb4-8"><a href="importar-el-archivo-.html#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Change column names</span></span>
+<span id="cb4-9"><a href="importar-el-archivo-.html#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Data_file) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Device&#39;</span>,<span class="st">&quot;Date&quot;</span>,<span class="st">&#39;Hour&#39;</span>,<span class="st">&#39;Plot&#39;</span>,<span class="st">&#39;Record_number&#39;</span>,<span class="st">&#39;CO2_ppm&#39;</span>,<span class="st">&#39;P_mBa&#39;</span>,<span class="st">&#39;Flow&#39;</span>,<span class="st">&quot;DT&quot;</span>)</span>
+<span id="cb4-10"><a href="importar-el-archivo-.html#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#remove row with NAs</span></span>
+<span id="cb4-11"><a href="importar-el-archivo-.html#cb4-11" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(Data_file, Plot)</span>
+<span id="cb4-12"><a href="importar-el-archivo-.html#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Give Date format to Date column</span></span>
+<span id="cb4-13"><a href="importar-el-archivo-.html#cb4-13" aria-hidden="true" tabindex="-1"></a>Data_file<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(Data_file<span class="sc">$</span>Date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb4-14"><a href="importar-el-archivo-.html#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#DT is repeated some times </span></span>
+<span id="cb4-15"><a href="importar-el-archivo-.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#I create a new variable with difference between number record (seconds)</span></span>
+<span id="cb4-16"><a href="importar-el-archivo-.html#cb4-16" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> Data_file <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Plot) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Seconds =</span> Record_number<span class="sc">-</span><span class="fu">first</span>(Record_number))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="importar-el-archivo-.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Data_file)</span></code></pre></div>
+<pre><code>## grouped_df [3,392 × 10] (S3: grouped_df/tbl_df/tbl/data.frame)
+##  $ Device       : chr [1:3392] &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; ...
+##  $ Date         : Date[1:3392], format: &quot;23-03-13&quot; ...
+##  $ Hour         : &#39;hms&#39; num [1:3392] 15:52:22 15:52:23 15:52:24 15:52:25 ...
+##   ..- attr(*, &quot;units&quot;)= chr &quot;secs&quot;
+##  $ Plot         : num [1:3392] 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Record_number: num [1:3392] 553 554 555 556 557 558 559 560 561 562 ...
+##  $ CO2_ppm      : num [1:3392] 416 416 417 417 417 418 418 419 419 419 ...
+##  $ P_mBa        : num [1:3392] 1000 1000 1000 1000 1000 ...
+##  $ Flow         : num [1:3392] 342 343 344 343 343 343 343 343 344 344 ...
+##  $ DT           : num [1:3392] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ Seconds      : num [1:3392] 0 1 2 3 4 5 6 7 8 9 ...
+##  - attr(*, &quot;groups&quot;)= tibble [18 × 2] (S3: tbl_df/tbl/data.frame)
+##   ..$ Plot : num [1:18] 1 2 3 4 5 6 7 8 9 10 ...
+##   ..$ .rows: list&lt;int&gt; [1:18] 
+##   .. ..$ : int [1:186] 1 2 3 4 5 6 7 8 9 10 ...
+##   .. ..$ : int [1:189] 187 188 189 190 191 192 193 194 195 196 ...
+##   .. ..$ : int [1:191] 376 377 378 379 380 381 382 383 384 385 ...
+##   .. ..$ : int [1:199] 567 568 569 570 571 572 573 574 575 576 ...
+##   .. ..$ : int [1:190] 766 767 768 769 770 771 772 773 774 775 ...
+##   .. ..$ : int [1:191] 956 957 958 959 960 961 962 963 964 965 ...
+##   .. ..$ : int [1:185] 1147 1148 1149 1150 1151 1152 1153 1154 1155 1156 ...
+##   .. ..$ : int [1:189] 1332 1333 1334 1335 1336 1337 1338 1339 1340 1341 ...
+##   .. ..$ : int [1:188] 1521 1522 1523 1524 1525 1526 1527 1528 1529 1530 ...
+##   .. ..$ : int [1:186] 1709 1710 1711 1712 1713 1714 1715 1716 1717 1718 ...
+##   .. ..$ : int [1:186] 1895 1896 1897 1898 1899 1900 1901 1902 1903 1904 ...
+##   .. ..$ : int [1:188] 2081 2082 2083 2084 2085 2086 2087 2088 2089 2090 ...
+##   .. ..$ : int [1:188] 2269 2270 2271 2272 2273 2274 2275 2276 2277 2278 ...
+##   .. ..$ : int [1:186] 2457 2458 2459 2460 2461 2462 2463 2464 2465 2466 ...
+##   .. ..$ : int [1:185] 2643 2644 2645 2646 2647 2648 2649 2650 2651 2652 ...
+##   .. ..$ : int [1:194] 2828 2829 2830 2831 2832 2833 2834 2835 2836 2837 ...
+##   .. ..$ : int [1:186] 3022 3023 3024 3025 3026 3027 3028 3029 3030 3031 ...
+##   .. ..$ : int [1:185] 3208 3209 3210 3211 3212 3213 3214 3215 3216 3217 ...
+##   .. ..@ ptype: int(0) 
+##   ..- attr(*, &quot;.drop&quot;)= logi TRUE</code></pre>
+<p>Ahora tiene mejor pinta:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="importar-el-archivo-.html#cb7-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(Data_file[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,], <span class="at">booktabs =</span> T, <span class="at">format =</span> <span class="st">&quot;html&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="importar-el-archivo-.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="importar-el-archivo-.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;100%&quot;</span>, <span class="at">height =</span> <span class="st">&quot;500px&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Device
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Date
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Hour
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Plot
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Record_number
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+CO2_ppm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+P_mBa
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Flow
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+DT
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Seconds
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:22
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+553
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+342
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:23
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+554
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:24
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+555
+</td>
+<td style="text-align:right;">
+417
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+344
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:25
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+556
+</td>
+<td style="text-align:right;">
+417
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:26
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+557
+</td>
+<td style="text-align:right;">
+417
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:27
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+558
+</td>
+<td style="text-align:right;">
+418
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:28
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+559
+</td>
+<td style="text-align:right;">
+418
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:29
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+560
+</td>
+<td style="text-align:right;">
+419
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:30
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+561
+</td>
+<td style="text-align:right;">
+419
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+344
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M5
+</td>
+<td style="text-align:left;">
+23-03-13
+</td>
+<td style="text-align:left;">
+15:52:31
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+562
+</td>
+<td style="text-align:right;">
+419
+</td>
+<td style="text-align:right;">
+1000.1
+</td>
+<td style="text-align:right;">
+344
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introducción.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualizar-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-Importar_TXT.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

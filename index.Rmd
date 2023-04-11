@@ -84,7 +84,7 @@ document.write(\'<div class="btn-group pull-right" style="position: absolute; to
 
 readr::write_lines(htmlhead, path = "header.html")
 ```
-# Sobre el tutorial
+# Sobre el tutorial {-}
 
 Esto es un tutorial para facilitar el tratatimendo de datos de los archivos obtenidos con el IRGA EGM-5 usando R y RStudio.
 
