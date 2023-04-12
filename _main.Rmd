@@ -1,0 +1,381 @@
+--- 
+title: "Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA"
+author: "Jorge Juan Montes Pérez"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(out.width = "100%")
+codejs <- readr::read_lines("js/codefolding.js")
+collapsejs <- readr::read_lines("js/collapse.js")
+transitionjs <- readr::read_lines("js/transition.js")
+dropdownjs <- readr::read_lines("js/dropdown.js")
+
+htmlhead <- c(
+  paste('
+<script>',
+paste(transitionjs, collapse = "\n"),
+'</script>
+<script>',
+paste(collapsejs, collapse = "\n"),
+'</script>
+<script>',
+paste(codejs, collapse = "\n"),
+'</script>
+<script>',
+paste(dropdownjs, collapse = "\n"),
+'</script>
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+.row { display: flex; }
+.collapse { display: none; }
+.in { display:block }
+.pull-right > .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+.open > .dropdown-menu {
+    display: block;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "hide");
+});
+</script>
+', sep = "\n"),
+  paste0('
+<script>
+document.write(\'<div class="btn-group pull-right" style="position: absolute; top: 20%; right: 2%; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>\')
+</script>
+')
+)
+
+readr::write_lines(htmlhead, path = "header.html")
+```
+# Sobre el tutorial {-}
+
+Esto es un tutorial para facilitar el tratatimendo de datos de los archivos obtenidos con el IRGA EGM-5 usando R y RStudio.
+
+## Estructura del tutorial
+
+Este documento está editado con `bookdown`. Lo podéis leer directamente en html (recomendado) o descargarlo tanto en formato pdf como en formato mobi. En la parte superior, encontraréis un icono para desplegar u ocultar la tabla de contenidos, un icono para buscar dentro del documento,un icono para descargar los formatos pdf y mobi y varios icono para compartir a través de distintas plataformas.
+
+A lo largo del documento entraréis "trocitos" de código R. Si pincháis en el recuadro `code` se desplegará todo el código y os aparecerá un icono para copiarlo. De esta manera, podréis ir copiando el código a vuestro script de R e ir siguiendo cada paso de la práctica.
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Tutorial para calcular tasas de emisión</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Jorge Juan Montes Pérez</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Reconocimiento-NoComercial 4.0 Internacional License</a>.
+
+<!--chapter:end:index.Rmd-->
+
+# Introducción {-}
+
+Si has llegado a este tutorial, posiblemente ya tengas claro para que vas a medir las emisiones o la absorción de CO~2~ con un analizador de gases infrarrojos (IRGA). Sin embargo, ....
+
+## ¿Porqué un analiador de gases infrarrojos?
+
+En construcción...
+
+## ¿Porqué medir las emisiones o la absorción de CO~2~?
+
+En construcción...
+
+<!--chapter:end:01-intro.Rmd-->
+
+# Importar el archivo "*.TXT"
+
+¡Vamos a remangarnos! Lo primero que tenemos que hacer es importar el archivo *.TXT que nos genera el IRGA. En el [manual del analizador](https://ppsystems.com/download/technical_manuals/80061-1%20EGM4_Operation_V419.pdf) podéis encontrar la información relativa a cada una de las columnas que aparecen en el archivo.
+
+Pódeis probar con vuestro propio archivo o descargar este que os dejo de prueba [pincha aquí](https://drive.google.com/file/d/1lgz5j1yE_BMyXb6_2LZYaGYbEh8c2tG5/view?usp=share_link).
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+#Open IRGA text files
+Data_file <- read_csv('./IRGA_files/23031311.TXT', skip = 2, col_names = FALSE, comment = 'Start')
+```
+
+Vamos a ver que es lo que hemos importado:
+
+```{r}
+str(Data_file)
+```
+
+
+Ahora vamos a arreglar un poco el el data.frame para que sea más fácil como trabajar con él.
+```{r}
+#Remove rows with "End"
+Data_file <- Data_file %>% filter(X1 != "End" | X1 != "Zero")
+#Select just rows with M5
+Data_file <- Data_file %>% filter(X1 == "M5")
+#Select just column with relevant information
+#When the files is generated from a SRC process, then parameter 3 (column 20) is DT
+Data_file <- Data_file[,c(1:8,20)]
+#Change column names
+colnames(Data_file) <- c('Device',"Date",'Hour','Plot','Record_number','CO2_ppm','P_mBa','Flow',"DT")
+#remove row with NAs
+Data_file <- drop_na(Data_file, Plot)
+#Give Date format to Date column
+Data_file$Date <- as.Date(Data_file$Date, format = "%d/%m/%Y")
+#DT is repeated some times 
+#I create a new variable with difference between number record (seconds)
+Data_file <- Data_file %>% group_by(Plot) %>% mutate(Seconds = Record_number-first(Record_number))
+```
+
+```{r}
+str(Data_file)
+```
+
+Ahora tiene mejor pinta:
+
+```{r}
+knitr::kable(Data_file[1:10,], booktabs = T, format = "html") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%", height = "500px")
+```
+
+```{r, include = FALSE}
+write_csv(Data_file, "Data_file.csv")
+```
+
+
+<!--chapter:end:02-Importar_TXT.Rmd-->
+
+# Visualizar datos
+```{r, include=FALSE}
+library(tidyverse)
+Data_file <- read_csv("Data_file.csv")
+```
+
+Una vez que hemos seleccionado las columnas qu enos interesan del archivo y hemos dado un poco de forma a los datos, vamos a ver que pinta tienen nuestras gráficas.
+ 
+```{r}
+#Plot 
+library(ggplot2)
+ggplot(Data_file, aes(x = DT, y = CO2_ppm))+
+  geom_point()+
+  facet_wrap(~Plot, scales = 'free')
+#Estaría interesante reducir el número de puntos de la siguiente forma:
+#Cuando hay varios valores iguales consecutivos, hacer la media del tiempo y usar un solo punto en mitad
+```
+ 
+Bien, tienen bastante buena pinta pero quizźas se pueden limpiar un poco los datos.
+ 
+
+<!--chapter:end:03-Visualizar.Rmd-->
+
+# Limpiar datos
+En la gráfica anterior hemos visto los datos "en bruto" que ha registrado el IRGA.
+
+Sim embargo, tenemos muchos valores iguales consecutivos. Podemos hacer la media del tiempo y usar un solo punto. 
+
+```{r}
+#I'm going to reduce the number of points
+#when a cocnentration remains constante i'm going to use just one point in the middle
+reduce_points <- function(data){
+  data$rep <- NA
+  i <- 1
+  for(p in 1:nrow(data)){
+    j <- i+1
+    if(j <= nrow(data)){
+      while (data$CO2_ppm[i] == data$CO2_ppm[j]) {
+        data$rep[j-1]<-i
+        j <- j+1
+        if(is.na(data$CO2_ppm[j]))
+          break
+      }
+      data$rep[j-1]<-i
+      i <- j
+    }
+  }
+  result <- data %>% group_by(rep) %>% summarise(across(where(is.numeric), ~mean(.)), across(Hour, ~seconds_to_period(mean(.))), across(Date, ~first(.)))
+  return(result)
+}
+#Now, we apply the function
+Reduced_data <- Data_file %>% group_by(Plot) %>% group_modify(~reduce_points(data=.x))
+```
+
+Por otro lado, vemos que el IRGA al final de algunos plots mete muchos de puntos que caen rápidamente. Para quitar esos artefacto vamos a eliminar las filas que vayan más allá del segundo 180 (o el tiempo que nosotros hayamos definido a la hora hacer las cámaras de respiración).
+
+```{r}
+#Remove rows beyond second 180
+Reduced_data <- Reduced_data %>% filter(Seconds <= 180)
+```
+
+Vamos a ver cómo ha quedado:
+```{r}
+ggplot(Reduced_data, aes(x = DT, y = CO2_ppm))+
+  geom_point()+
+  facet_wrap(~Plot, scales = 'free')
+```
+
+Una vez limpiados los datos, guardamos la tabla en un archivo por si necesitamos trabajar con ella más tarde.
+```{r}
+write_csv(Reduced_data, "Data_cleaned.csv")
+```
+
+
+<!--chapter:end:04-Limpiar.Rmd-->
+
+# Ajuste lineal para obtener pendientes
+Para obtener las tasas (la pendiente) usamos un ajuste lineal.
+
+A parte del la pendiente, también nos interesa otra información como la R^2, el intervalo de confianza de la pendiente y si es significativa o no. Por ello, vamos a crear una función que ajuste una recta a nuestros datos y que además nos guarde toda la información que queremos en un objeto.
+```{r}
+#Una función para obtener la pendiente, la R y el intervalo de confianza
+fit_rates <- function(data){
+  lm <- lm(CO2_ppm~Seconds, data = data)
+  cor <- cor.test(formula = ~Seconds +CO2_ppm, data = data)
+  ajustes <- data.frame(R2 = as.numeric(cor$estimate^2), pvalue = cor$p.value, slope = as.numeric(lm$coefficients[2]), Intercept = as.numeric(lm$coefficients[1]), n = nrow(data), Conf_2.5 = confint(lm)[2,1], Conf_97.5 = confint(lm)[2,2])
+  return(ajustes)
+}
+```
+
+Una vez creada la función, podemos aplicarla a nuestros datos:
+
+```{r}
+Results <- Reduced_data %>% group_by(Plot) %>% group_modify(~fit_rates(data=.x))
+```
+
+Este es el objeto que hemos generado:
+
+```{r}
+knitr::kable(Results, booktabs = T, format = "html") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%", height = "500px")
+```
+
+
+Vamos a echar un vistazo a los ajustes que acabamos de realizar.
+
+```{r}
+#Now we can have a look into the plots with the fits
+ggplot(Reduced_data, aes(x = DT, y = CO2_ppm))+
+  geom_point()+
+  facet_wrap(~Plot, scales = 'free')+
+  geom_abline(data = Results, aes(intercept = Intercept, slope = slope), color = "red")+
+  geom_text(data = Results, aes(x= 30, y = 410, label = paste("R2 =", round(R2, 2))), size = 2)
+```
+
+Ahora vamos a guardar la información relativa a los ajsutes:
+
+```{r}
+write_csv(Results, "Resultados_ajustes.csv")
+```
+
+
+<!--chapter:end:05-Ajustar_pendientes.Rmd-->
+
+# Calcular la tasa de emisión o absorción
+
+## ¿Pero no tenemos ya la pendiente?
+
+Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y todo. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos^-1^. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO~2~ en mmol·m^-2^·día^-1^ o mg·m^-2^·día^-1^.
+
+## ppm a mmol
+
+Para esto vamos a basarnos en la conocida ley de los gases ideales que enuncia los siguiente:
+
+\begin{equation}
+PV = nRT (\#eq:GasesIdeales)
+\end{equation}
+
+Donde, P es la presión que ejerce un gas, V es el volumen que ocupa dicho gas, n es el número de moles, R es la constante de los gases ideales y T es la temperatura expresada en grados Kelvin.
+La unidad de concentración que nos da el IRGA es ppm, partes por millón, en el caso de que la medida sea de una muestra de gas, esta indica el número de moles de nuestra sustancia (CO~2~) por millón de moles de aire, o lo que es lo mismo μmol/mol. Si fuera agua,
+serı́an los gramos de sustancia por millón de gramos del total (μg/g).
+
+Vamos a definir unos valores para este ejemplo.
+```{r}
+#definimos las condiciones
+V_camara <- 1.171 #dm³
+S <- 0.78 #dm²
+
+Patm = 0.9905749 #atm #1003.7 #mBa
+Temp = 290.7 #Kelvin #17.7 #ºC
+
+R = 0.08205 #dm3·atm·mol-1·K-1
+
+Slope = 0.5 #ppm/sec
+```
+Imaginamos que tenemos una pendiente de `r Slope` ppm/segundo. En primer lugar, para calcular el flujo debemos calcular cuantos moles de $CO_2$ se han producido por segundo en nuestra cámara. Nuestra pendiente ahora mismo son ppm/seg, o lo que es lo mismo $\mu$moles de CO~2~/ mol de aire / segundo. Por lo tanto, vamos a convertir los ppm ($\mu$moles de CO~2~/ mol de aire) en $\mu$moles de CO~2~. Tenemos una concentración y necesitamos una cantidad. Para ello, nos servimos de la ecuación \@ref(eq:GasesIdeales) y de los datos que nos aporta el IRGA. Convertimos la presión atmosférica de mBa a atm (1 atm = 1013.25 mBa) y la temperatura ambiente, de 17.7 $^{\circ} C$, hay que convertirla en grados Kelvin. Por lo tanto, tenemos 0.9906 atm, una temperaturade 290.7 K y sabemos que 0.5 ppm son 0.0000005 moles de $CO_2$ en 1 mol de aire. 
+
+
+¿Cuántos moles de aire tengo en mi cámara?
+
+Usando la ecuación \@ref(eq:GasesIdeales):
+
+\begin{equation}
+n_{aire} = \frac{1.019 ~atm \cdot 1.171 ~dm^{3}}{0.08205 ~ dm^3 \cdot atm \cdot mol^{-1} \cdot K^{-1}  \cdot 290.7 ~K} (\#eq:Molaire)
+\end{equation}
+
+```{r}
+#Calculamos los moles de aire
+n_aire <- (Patm * V_camara) / (R * Temp)
+n_aire
+```
+
+Ahora con una simple regla de tres podemos saber cuantos moles de CO~2~ se producen en mi cámara por segundo. 
+
+\begin{equation}
+\frac{0.5 ~\mu mol~ CO_2}{1 ~mol~de~aire} = \frac{x ~\mu mol~ CO_2}{`r round(n_aire,3)` ~mol~de~aire} (\#eq:umolCO2)
+\end{equation}
+
+```{r}
+umolCO2 <- Slope*n_aire #umol de CO2
+umolCO2
+```
+
+Pues ya sabemos los $\mu$mol que se producen por segundo en mi cámara, `r umolCO2` $\mu$ mol·s^-1^. 
+
+Sabiendo la superficie de nuestra cámara y haciendo algunos cambios de unidades podemos calcular la tasa en mmol·m^-2^·día^-1^ o mg·m^-2^·día^-1^.
+
+```{r}
+tasa_mmol <- umolCO2/1000*86400/S
+tasa_mmol
+```
+
+```{r}
+tasa_mg <- umolCO2/1000*86400/S*44
+tasa_mg
+```
+
+¡Pues listo! Ya hemos calculado la tasa de emisión y/o absorción de nuestro sedimento, suelo o masa de agua.
+
+<!--chapter:end:06-Calcular_tasas.Rmd-->
+
+`r if (knitr::is_html_output()) '
+# References {-}
+'`
+
+<!--chapter:end:07-references.Rmd-->
+
