@@ -88,7 +88,7 @@ readr::write_lines(htmlhead, path = "header.html")
 
 Esto es un tutorial para facilitar el tratatimendo de datos de los archivos obtenidos con el IRGA EGM-5 usando R y RStudio.
 
-## Estructura del tutorial
+## Estructura del tutorial {-}
 
 Este documento está editado con `bookdown`. Lo podéis leer directamente en html (recomendado) o descargarlo tanto en formato pdf como en formato mobi. En la parte superior, encontraréis un icono para desplegar u ocultar la tabla de contenidos, un icono para buscar dentro del documento,un icono para descargar los formatos pdf y mobi y varios icono para compartir a través de distintas plataformas.
 
@@ -98,7 +98,7 @@ A lo largo del documento entraréis "trocitos" de código R. Si pincháis en el 
 
 <!--chapter:end:index.Rmd-->
 
-# Introducción {-}
+# Introducción
 
 Si has llegado a este tutorial, posiblemente ya tengas claro para que vas a medir las emisiones o la absorción de CO~2~ con un analizador de gases infrarrojos (IRGA). Sin embargo, ....
 

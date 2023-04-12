@@ -1,4 +1,4 @@
-# Introducción {-}
+# Introducción
 
 Si has llegado a este tutorial, posiblemente ya tengas claro para que vas a medir las emisiones o la absorción de CO~2~ con un analizador de gases infrarrojos (IRGA). Sin embargo, ....
 
