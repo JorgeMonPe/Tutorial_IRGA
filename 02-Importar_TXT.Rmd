@@ -1,6 +1,6 @@
 # Importar el archivo "*.TXT"
 
-¡Vamos a remangarnos! Lo primero que tenemos que hacer es importar el archivo *.TXT que nos genera el IRGA. En el [manual del analizador](https://ppsystems.com/download/technical_manuals/80061-1%20EGM4_Operation_V419.pdf) podéis encontrar la información relativa a cada una de las columnas que aparecen en el archivo.
+¡Vamos a remangarnos! Lo primero que tenemos que hacer es importar el archivo *.TXT que nos genera el IRGA. En el [manual del analizador de gases infrarrojos](https://ppsystems.com/download/technical_manuals/80061-1%20EGM4_Operation_V419.pdf) podéis encontrar la información relativa a cada una de las columnas que aparecen en el archivo.
 
 Pódeis probar con vuestro propio archivo o descargar este que os dejo de prueba [pincha aquí](https://drive.google.com/file/d/1lgz5j1yE_BMyXb6_2LZYaGYbEh8c2tG5/view?usp=share_link).
 
@@ -18,7 +18,7 @@ str(Data_file)
 ```
 
 
-Ahora vamos a arreglar un poco el el data.frame para que sea más fácil como trabajar con él.
+Ahora vamos a arreglar un poco el `data.frame` para que sea más fácil como trabajar con él.
 ```{r}
 #Remove rows with "End"
 Data_file <- Data_file %>% filter(X1 != "End" | X1 != "Zero")
@@ -44,7 +44,7 @@ str(Data_file)
 
 Ahora tiene mejor pinta:
 
-```{r}
+```{r, include=FALSE}
 knitr::kable(Data_file[1:10,], booktabs = T, format = "html") %>%
   kableExtra::kable_styling() %>%
   kableExtra::scroll_box(width = "100%", height = "500px")

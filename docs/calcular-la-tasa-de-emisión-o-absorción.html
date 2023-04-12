@@ -181,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">6</span> Calcular la tasa de emisión o absorción<a href="calcular-la-tasa-de-emisión-o-absorción.html#calcular-la-tasa-de-emisión-o-absorción" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="pero-no-tenemos-ya-la-pendiente" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> ¿Pero no tenemos ya la pendiente?<a href="calcular-la-tasa-de-emisión-o-absorción.html#pero-no-tenemos-ya-la-pendiente" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y todo. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos<sup>-1</sup>. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO<sub>2</sub> en mmol·m<sup>-2</sup>·día<sup>-1</sup> o mg·m<sup>-2</sup>·día<sup>-1</sup>.</p>
+<p>Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y la R^2. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos<sup>-1</sup>. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO<sub>2</sub> en mmol·m<sup>-2</sup>·día<sup>-1</sup> o mg·m<sup>-2</sup>·día<sup>-1</sup>.</p>
 </div>
 <div id="ppm-a-mmol" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> ppm a mmol<a href="calcular-la-tasa-de-emisión-o-absorción.html#ppm-a-mmol" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -189,44 +189,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display" id="eq:GasesIdeales">\[\begin{equation}
 PV = nRT \tag{6.1}
 \end{equation}\]</span></p>
-<p>Donde, P es la presión que ejerce un gas, V es el volumen que ocupa dicho gas, n es el número de moles, R es la constante de los gases ideales y T es la temperatura expresada en grados Kelvin.
+<p>Donde,<em>P</em> es la presión que ejerce un gas, <em>V</em> es el volumen que ocupa dicho gas, <em>n</em> es el número de moles, <em>R</em> es la constante de los gases ideales y <em>T</em> es la temperatura expresada en grados Kelvin.
 La unidad de concentración que nos da el IRGA es ppm, partes por millón, en el caso de que la medida sea de una muestra de gas, esta indica el número de moles de nuestra sustancia (CO<sub>2</sub>) por millón de moles de aire, o lo que es lo mismo μmol/mol. Si fuera agua,
 serı́an los gramos de sustancia por millón de gramos del total (μg/g).</p>
 <p>Vamos a definir unos valores para este ejemplo.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#definimos las condiciones</span></span>
-<span id="cb19-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-2" aria-hidden="true" tabindex="-1"></a>V_camara <span class="ot">&lt;-</span> <span class="fl">1.171</span> <span class="co">#dm³</span></span>
-<span id="cb19-3"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-3" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fl">0.78</span> <span class="co">#dm²</span></span>
-<span id="cb19-4"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-5" aria-hidden="true" tabindex="-1"></a>Patm <span class="ot">=</span> <span class="fl">0.9905749</span> <span class="co">#atm #1003.7 #mBa</span></span>
-<span id="cb19-6"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-6" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fl">290.7</span> <span class="co">#Kelvin #17.7 #ºC</span></span>
-<span id="cb19-7"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-8" aria-hidden="true" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">0.08205</span> <span class="co">#dm3·atm·mol-1·K-1</span></span>
-<span id="cb19-9"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb19-10" aria-hidden="true" tabindex="-1"></a>Slope <span class="ot">=</span> <span class="fl">0.5</span> <span class="co">#ppm/sec</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#definimos las condiciones</span></span>
+<span id="cb17-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-2" aria-hidden="true" tabindex="-1"></a>V_camara <span class="ot">&lt;-</span> <span class="fl">1.171</span> <span class="co">#dm³</span></span>
+<span id="cb17-3"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-3" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fl">0.78</span> <span class="co">#dm²</span></span>
+<span id="cb17-4"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-5" aria-hidden="true" tabindex="-1"></a>Patm <span class="ot">=</span> <span class="fl">0.9905749</span> <span class="co">#atm #1003.7 #mBa</span></span>
+<span id="cb17-6"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-6" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fl">290.7</span> <span class="co">#Kelvin #17.7 #ºC</span></span>
+<span id="cb17-7"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-8" aria-hidden="true" tabindex="-1"></a>R <span class="ot">=</span> <span class="fl">0.08205</span> <span class="co">#dm3·atm·mol-1·K-1</span></span>
+<span id="cb17-9"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-10" aria-hidden="true" tabindex="-1"></a>Slope <span class="ot">=</span> <span class="fl">0.5</span> <span class="co">#ppm/sec</span></span></code></pre></div>
 <p>Imaginamos que tenemos una pendiente de 0.5 ppm/segundo. En primer lugar, para calcular el flujo debemos calcular cuantos moles de <span class="math inline">\(CO_2\)</span> se han producido por segundo en nuestra cámara. Nuestra pendiente ahora mismo son ppm/seg, o lo que es lo mismo <span class="math inline">\(\mu\)</span>moles de CO<sub>2</sub>/ mol de aire / segundo. Por lo tanto, vamos a convertir los ppm (<span class="math inline">\(\mu\)</span>moles de CO<sub>2</sub>/ mol de aire) en <span class="math inline">\(\mu\)</span>moles de CO<sub>2</sub>. Tenemos una concentración y necesitamos una cantidad. Para ello, nos servimos de la ecuación <a href="calcular-la-tasa-de-emisión-o-absorción.html#eq:GasesIdeales">(6.1)</a> y de los datos que nos aporta el IRGA. Convertimos la presión atmosférica de mBa a atm (1 atm = 1013.25 mBa) y la temperatura ambiente, de 17.7 <span class="math inline">\(^{\circ} C\)</span>, hay que convertirla en grados Kelvin. Por lo tanto, tenemos 0.9906 atm, una temperaturade 290.7 K y sabemos que 0.5 ppm son 0.0000005 moles de <span class="math inline">\(CO_2\)</span> en 1 mol de aire.</p>
 <p>¿Cuántos moles de aire tengo en mi cámara?</p>
 <p>Usando la ecuación <a href="calcular-la-tasa-de-emisión-o-absorción.html#eq:GasesIdeales">(6.1)</a>:</p>
 <p><span class="math display" id="eq:Molaire">\[\begin{equation}
 n_{aire} = \frac{1.019 ~atm \cdot 1.171 ~dm^{3}}{0.08205 ~ dm^3 \cdot atm \cdot mol^{-1} \cdot K^{-1}  \cdot 290.7 ~K} \tag{6.2}
 \end{equation}\]</span></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculamos los moles de aire</span></span>
-<span id="cb20-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb20-2" aria-hidden="true" tabindex="-1"></a>n_aire <span class="ot">&lt;-</span> (Patm <span class="sc">*</span> V_camara) <span class="sc">/</span> (R <span class="sc">*</span> Temp)</span>
-<span id="cb20-3"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb20-3" aria-hidden="true" tabindex="-1"></a>n_aire</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculamos los moles de aire</span></span>
+<span id="cb18-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb18-2" aria-hidden="true" tabindex="-1"></a>n_aire <span class="ot">&lt;-</span> (Patm <span class="sc">*</span> V_camara) <span class="sc">/</span> (R <span class="sc">*</span> Temp)</span>
+<span id="cb18-3"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb18-3" aria-hidden="true" tabindex="-1"></a>n_aire</span></code></pre></div>
 <pre><code>## [1] 0.04863183</code></pre>
 <p>Ahora con una simple regla de tres podemos saber cuantos moles de CO<sub>2</sub> se producen en mi cámara por segundo.</p>
 <p><span class="math display" id="eq:umolCO2">\[\begin{equation}
 \frac{0.5 ~\mu mol~ CO_2}{1 ~mol~de~aire} = \frac{x ~\mu mol~ CO_2}{0.049 ~mol~de~aire} \tag{6.3}
 \end{equation}\]</span></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb22-1" aria-hidden="true" tabindex="-1"></a>umolCO2 <span class="ot">&lt;-</span> Slope<span class="sc">*</span>n_aire <span class="co">#umol de CO2</span></span>
-<span id="cb22-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb22-2" aria-hidden="true" tabindex="-1"></a>umolCO2</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb20-1" aria-hidden="true" tabindex="-1"></a>umolCO2 <span class="ot">&lt;-</span> Slope<span class="sc">*</span>n_aire <span class="co">#umol de CO2</span></span>
+<span id="cb20-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb20-2" aria-hidden="true" tabindex="-1"></a>umolCO2</span></code></pre></div>
 <pre><code>## [1] 0.02431591</code></pre>
-<p>Pues ya sabemos los <span class="math inline">\(\mu\)</span>mol que se producen por segundo en mi cámara, 0.0243159 <span class="math inline">\(\mu\)</span> mol·s<sup>-1</sup>.</p>
+<p>Pues ya sabemos los <span class="math inline">\(\mu\)</span>mol que se producen por segundo en mi cámara, 0.0243159 <span class="math inline">\(\mu\)</span>mol·s<sup>-1</sup>.</p>
 <p>Sabiendo la superficie de nuestra cámara y haciendo algunos cambios de unidades podemos calcular la tasa en mmol·m<sup>-2</sup>·día<sup>-1</sup> o mg·m<sup>-2</sup>·día<sup>-1</sup>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb24-1" aria-hidden="true" tabindex="-1"></a>tasa_mmol <span class="ot">&lt;-</span> umolCO2<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span><span class="dv">86400</span><span class="sc">/</span>S</span>
-<span id="cb24-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb24-2" aria-hidden="true" tabindex="-1"></a>tasa_mmol</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb22-1" aria-hidden="true" tabindex="-1"></a>tasa_mmol <span class="ot">&lt;-</span> umolCO2<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span><span class="dv">86400</span><span class="sc">/</span>S</span>
+<span id="cb22-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb22-2" aria-hidden="true" tabindex="-1"></a>tasa_mmol</span></code></pre></div>
 <pre><code>## [1] 2.693455</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb26-1" aria-hidden="true" tabindex="-1"></a>tasa_mg <span class="ot">&lt;-</span> umolCO2<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span><span class="dv">86400</span><span class="sc">/</span>S<span class="sc">*</span><span class="dv">44</span></span>
-<span id="cb26-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb26-2" aria-hidden="true" tabindex="-1"></a>tasa_mg</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb24-1" aria-hidden="true" tabindex="-1"></a>tasa_mg <span class="ot">&lt;-</span> umolCO2<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span><span class="dv">86400</span><span class="sc">/</span>S<span class="sc">*</span><span class="dv">44</span></span>
+<span id="cb24-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb24-2" aria-hidden="true" tabindex="-1"></a>tasa_mg</span></code></pre></div>
 <pre><code>## [1] 118.512</code></pre>
 <p>¡Pues listo! Ya hemos calculado la tasa de emisión y/o absorción de nuestro sedimento, suelo o masa de agua.</p>
 

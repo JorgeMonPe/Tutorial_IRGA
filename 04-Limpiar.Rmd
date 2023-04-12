@@ -29,7 +29,7 @@ reduce_points <- function(data){
 Reduced_data <- Data_file %>% group_by(Plot) %>% group_modify(~reduce_points(data=.x))
 ```
 
-Por otro lado, vemos que el IRGA al final de algunos plots mete muchos de puntos que caen rápidamente. Para quitar esos artefacto vamos a eliminar las filas que vayan más allá del segundo 180 (o el tiempo que nosotros hayamos definido a la hora hacer las cámaras de respiración).
+Por otro lado, vemos que el IRGA al final de algunos plots mete muchos puntos que caen rápidamente. Para quitar esos artefactos, vamos a eliminar las filas que vayan más allá del segundo 180 (o el tiempo que nosotros hayamos definido a la hora hacer las cámaras de respiración).
 
 ```{r}
 #Remove rows beyond second 180

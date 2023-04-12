@@ -4,7 +4,7 @@ library(tidyverse)
 Data_file <- read_csv("Data_file.csv")
 ```
 
-Una vez que hemos seleccionado las columnas qu enos interesan del archivo y hemos dado un poco de forma a los datos, vamos a ver que pinta tienen nuestras gráficas.
+Una vez que hemos seleccionado las columnas que nos interesan del archivo y hemos dado un poco de forma a los datos, vamos a ver que pinta tienen nuestras gráficas.
  
 ```{r}
 #Plot 
@@ -16,5 +16,5 @@ ggplot(Data_file, aes(x = DT, y = CO2_ppm))+
 #Cuando hay varios valores iguales consecutivos, hacer la media del tiempo y usar un solo punto en mitad
 ```
  
-Bien, tienen bastante buena pinta pero quizźas se pueden limpiar un poco los datos.
+Bien, tienen bastante buena pinta pero quizás se pueden limpiar un poco los datos.
  

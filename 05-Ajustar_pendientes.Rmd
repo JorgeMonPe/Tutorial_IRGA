@@ -1,7 +1,7 @@
 # Ajuste lineal para obtener pendientes
 Para obtener las tasas (la pendiente) usamos un ajuste lineal.
 
-A parte del la pendiente, también nos interesa otra información como la R^2, el intervalo de confianza de la pendiente y si es significativa o no. Por ello, vamos a crear una función que ajuste una recta a nuestros datos y que además nos guarde toda la información que queremos en un objeto.
+A parte del la pendiente, también nos interesa otra información como la R^2^, el intervalo de confianza de la pendiente y si es significativa o no. Para ello, vamos a crear una función que ajuste una recta a nuestros datos y que además nos guarde toda la información que queremos en un objeto.
 ```{r}
 #Una función para obtener la pendiente, la R y el intervalo de confianza
 fit_rates <- function(data){
@@ -20,7 +20,7 @@ Results <- Reduced_data %>% group_by(Plot) %>% group_modify(~fit_rates(data=.x))
 
 Este es el objeto que hemos generado:
 
-```{r}
+```{r, include=FALSE}
 knitr::kable(Results, booktabs = T, format = "html") %>%
   kableExtra::kable_styling() %>%
   kableExtra::scroll_box(width = "100%", height = "500px")

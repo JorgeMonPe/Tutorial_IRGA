@@ -2,7 +2,7 @@
 
 ## ¿Pero no tenemos ya la pendiente?
 
-Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y todo. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos^-1^. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO~2~ en mmol·m^-2^·día^-1^ o mg·m^-2^·día^-1^.
+Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y la R^2. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos^-1^. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO~2~ en mmol·m^-2^·día^-1^ o mg·m^-2^·día^-1^.
 
 ## ppm a mmol
 
@@ -12,7 +12,7 @@ Para esto vamos a basarnos en la conocida ley de los gases ideales que enuncia l
 PV = nRT (\#eq:GasesIdeales)
 \end{equation}
 
-Donde, P es la presión que ejerce un gas, V es el volumen que ocupa dicho gas, n es el número de moles, R es la constante de los gases ideales y T es la temperatura expresada en grados Kelvin.
+Donde,*P* es la presión que ejerce un gas, *V* es el volumen que ocupa dicho gas, *n* es el número de moles, *R* es la constante de los gases ideales y *T* es la temperatura expresada en grados Kelvin.
 La unidad de concentración que nos da el IRGA es ppm, partes por millón, en el caso de que la medida sea de una muestra de gas, esta indica el número de moles de nuestra sustancia (CO~2~) por millón de moles de aire, o lo que es lo mismo μmol/mol. Si fuera agua,
 serı́an los gramos de sustancia por millón de gramos del total (μg/g).
 
@@ -57,7 +57,7 @@ umolCO2 <- Slope*n_aire #umol de CO2
 umolCO2
 ```
 
-Pues ya sabemos los $\mu$mol que se producen por segundo en mi cámara, `r umolCO2` $\mu$ mol·s^-1^. 
+Pues ya sabemos los $\mu$mol que se producen por segundo en mi cámara, `r umolCO2` $\mu$mol·s^-1^. 
 
 Sabiendo la superficie de nuestra cámara y haciendo algunos cambios de unidades podemos calcular la tasa en mmol·m^-2^·día^-1^ o mg·m^-2^·día^-1^.
 
