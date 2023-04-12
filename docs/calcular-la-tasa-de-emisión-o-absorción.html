@@ -121,6 +121,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -181,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">6</span> Calcular la tasa de emisión o absorción<a href="calcular-la-tasa-de-emisión-o-absorción.html#calcular-la-tasa-de-emisión-o-absorción" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="pero-no-tenemos-ya-la-pendiente" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> ¿Pero no tenemos ya la pendiente?<a href="calcular-la-tasa-de-emisión-o-absorción.html#pero-no-tenemos-ya-la-pendiente" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y la R^2. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos<sup>-1</sup>. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO<sub>2</sub> en mmol·m<sup>-2</sup>·día<sup>-1</sup> o mg·m<sup>-2</sup>·día<sup>-1</sup>.</p>
+<p>Sí, en el apartado anterior hemos ajustado una ecuación lineal a nuestros datos y hemos obtenido una pendiente, con su intervalo de confianza y la R^2. Y, en efecto, esa pendiente también es una tasa. Sin embargo, la pendiente que hemos calculado nos da una tasa en ppm·segundos<sup>-1</sup>. Lo que a nosotros nos interesa es expresar la tasa en unas unidadeds comparable con otros trabajos, artículos, etc. Estos, generalmente, expresan la tasa de emisión de CO<sub>2</sub> en mmol·m<sup>-2</sup>·día<sup>-1</sup> o mg·m<sup>-2</sup>·día<sup>-1</sup> <span class="citation">(p. ej. <a href="#ref-Montes-Perez2022" role="doc-biblioref">Montes-Pérez, Obrador, et al. 2022</a>; <a href="#ref-Montes-Perez2022b" role="doc-biblioref">Montes-Pérez, Marcé, et al. 2022</a>)</span>.</p>
 </div>
 <div id="ppm-a-mmol" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> ppm a mmol<a href="calcular-la-tasa-de-emisión-o-absorción.html#ppm-a-mmol" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -189,7 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display" id="eq:GasesIdeales">\[\begin{equation}
 PV = nRT \tag{6.1}
 \end{equation}\]</span></p>
-<p>Donde,<em>P</em> es la presión que ejerce un gas, <em>V</em> es el volumen que ocupa dicho gas, <em>n</em> es el número de moles, <em>R</em> es la constante de los gases ideales y <em>T</em> es la temperatura expresada en grados Kelvin.
+<p>Donde, <em>P</em> es la presión que ejerce un gas, <em>V</em> es el volumen que ocupa dicho gas, <em>n</em> es el número de moles, <em>R</em> es la constante de los gases ideales y <em>T</em> es la temperatura expresada en grados Kelvin.
 La unidad de concentración que nos da el IRGA es ppm, partes por millón, en el caso de que la medida sea de una muestra de gas, esta indica el número de moles de nuestra sustancia (CO<sub>2</sub>) por millón de moles de aire, o lo que es lo mismo μmol/mol. Si fuera agua,
 serı́an los gramos de sustancia por millón de gramos del total (μg/g).</p>
 <p>Vamos a definir unos valores para este ejemplo.</p>
@@ -230,6 +252,15 @@ n_{aire} = \frac{1.019 ~atm \cdot 1.171 ~dm^{3}}{0.08205 ~ dm^3 \cdot atm \cdot 
 <pre><code>## [1] 118.512</code></pre>
 <p>¡Pues listo! Ya hemos calculado la tasa de emisión y/o absorción de nuestro sedimento, suelo o masa de agua.</p>
 
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Montes-Perez2022b" class="csl-entry">
+Montes-Pérez, J. J., R Marcé, B Obrador, T Conejo-Orosa, J L Díez, C Escot, I Reyes, E Moreno-Ostos, T Conejo Orosa, and J L Díez C Escot. 2022. <span>“<span class="nocase">Hydrology influences carbon flux through metabolic pathways in the hypolimnion of a Mediterranean reservoir</span>.”</span> <em>Aquatic Sciences</em> 84 (3): 1–16. <a href="https://doi.org/10.1007/S00027-022-00867-2">https://doi.org/10.1007/S00027-022-00867-2</a>.
+</div>
+<div id="ref-Montes-Perez2022" class="csl-entry">
+Montes-Pérez, J. J., B. Obrador, T. Conejo-Orosa, V. Rodríguez, R. Marcé, C. Escot, I. Reyes, J. Rodríguez, and E. Moreno-Ostos. 2022. <span>“<span class="nocase">Spatio-temporal variability of carbon dioxide and methane emissions from a Mediterranean reservoir</span>.”</span> <em>Limnetica</em> 41 (1): 43–60. <a href="https://doi.org/10.23818/limn.41.04">https://doi.org/10.23818/limn.41.04</a>.
 </div>
 </div>
             </section>
