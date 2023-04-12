@@ -1,5 +1,5 @@
 --- 
-title: "Un tutorial para calcular el flujo de CO2 a partir de un archivo del IRGA"
+title: "Calcular el flujo de CO2 a partir de un archivo del IRGA"
 author: "Jorge Juan Montes Pérez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -8,7 +8,7 @@ bibliography: [book.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
-  Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO_2 a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems.
+  Este es un pequeño tutorial para calcular la tasa de emisión y/o de absorción de CO~2~ a partir de las medidas realizadas con el analizador de gases infrarrojos EGM-5 de PPSystems.
 link-citations: yes
 github-repo: rstudio/bookdown-demo
 ---
