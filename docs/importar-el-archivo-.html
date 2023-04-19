@@ -23,7 +23,7 @@
 <meta name="author" content="Jorge Juan Montes Pérez" />
 
 
-<meta name="date" content="2023-04-12" />
+<meta name="date" content="2023-04-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -209,7 +209,7 @@ div.csl-indent {
 <span id="cb1-4"><a href="importar-el-archivo-.html#cb1-4" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;./IRGA_files/23031311.TXT&#39;</span>, <span class="at">skip =</span> <span class="dv">2</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>, <span class="at">comment =</span> <span class="st">&#39;Start&#39;</span>)</span></code></pre></div>
 <p>Vamos a ver que es lo que hemos importado:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="importar-el-archivo-.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Data_file)</span></code></pre></div>
-<pre><code>## spec_tbl_df [3,430 × 22] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+<pre><code>## spc_tbl_ [3,430 × 22] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ X1 : chr [1:3430] &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; ...
 ##  $ X2 : chr [1:3430] &quot;13/03/23&quot; &quot;13/03/23&quot; &quot;13/03/23&quot; &quot;13/03/23&quot; ...
 ##  $ X3 : &#39;hms&#39; num [1:3430] 15:52:22 15:52:23 15:52:24 15:52:25 ...
@@ -277,7 +277,7 @@ div.csl-indent {
 <span id="cb4-15"><a href="importar-el-archivo-.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#I create a new variable with difference between number record (seconds)</span></span>
 <span id="cb4-16"><a href="importar-el-archivo-.html#cb4-16" aria-hidden="true" tabindex="-1"></a>Data_file <span class="ot">&lt;-</span> Data_file <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Plot) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Seconds =</span> Record_number<span class="sc">-</span><span class="fu">first</span>(Record_number))</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="importar-el-archivo-.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Data_file)</span></code></pre></div>
-<pre><code>## grouped_df [3,392 × 10] (S3: grouped_df/tbl_df/tbl/data.frame)
+<pre><code>## gropd_df [3,392 × 10] (S3: grouped_df/tbl_df/tbl/data.frame)
 ##  $ Device       : chr [1:3392] &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; &quot;M5&quot; ...
 ##  $ Date         : Date[1:3392], format: &quot;23-03-13&quot; &quot;23-03-13&quot; ...
 ##  $ Hour         : &#39;hms&#39; num [1:3392] 15:52:22 15:52:23 15:52:24 15:52:25 ...

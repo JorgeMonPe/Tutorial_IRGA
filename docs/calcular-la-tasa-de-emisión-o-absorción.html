@@ -23,7 +23,7 @@
 <meta name="author" content="Jorge Juan Montes Pérez" />
 
 
-<meta name="date" content="2023-04-12" />
+<meta name="date" content="2023-04-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -217,7 +217,7 @@ serı́an los gramos de sustancia por millón de gramos del total (μg/g).</p>
 <p>Vamos a definir unos valores para este ejemplo.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#definimos las condiciones</span></span>
 <span id="cb17-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-2" aria-hidden="true" tabindex="-1"></a>V_camara <span class="ot">&lt;-</span> <span class="fl">1.171</span> <span class="co">#dm³</span></span>
-<span id="cb17-3"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-3" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fl">0.78</span> <span class="co">#dm²</span></span>
+<span id="cb17-3"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-3" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fl">0.0078</span> <span class="co">#m²</span></span>
 <span id="cb17-4"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-5"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-5" aria-hidden="true" tabindex="-1"></a>Patm <span class="ot">=</span> <span class="fl">0.9905749</span> <span class="co">#atm #1003.7 #mBa</span></span>
 <span id="cb17-6"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb17-6" aria-hidden="true" tabindex="-1"></a>Temp <span class="ot">=</span> <span class="fl">290.7</span> <span class="co">#Kelvin #17.7 #ºC</span></span>
@@ -246,10 +246,10 @@ n_{aire} = \frac{1.019 ~atm \cdot 1.171 ~dm^{3}}{0.08205 ~ dm^3 \cdot atm \cdot 
 <p>Sabiendo la superficie de nuestra cámara y haciendo algunos cambios de unidades podemos calcular la tasa en mmol·m<sup>-2</sup>·día<sup>-1</sup> o mg·m<sup>-2</sup>·día<sup>-1</sup>.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb22-1" aria-hidden="true" tabindex="-1"></a>tasa_mmol <span class="ot">&lt;-</span> umolCO2<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span><span class="dv">86400</span><span class="sc">/</span>S</span>
 <span id="cb22-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb22-2" aria-hidden="true" tabindex="-1"></a>tasa_mmol</span></code></pre></div>
-<pre><code>## [1] 2.693455</code></pre>
+<pre><code>## [1] 269.3455</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb24-1" aria-hidden="true" tabindex="-1"></a>tasa_mg <span class="ot">&lt;-</span> umolCO2<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span><span class="dv">86400</span><span class="sc">/</span>S<span class="sc">*</span><span class="dv">44</span></span>
 <span id="cb24-2"><a href="calcular-la-tasa-de-emisión-o-absorción.html#cb24-2" aria-hidden="true" tabindex="-1"></a>tasa_mg</span></code></pre></div>
-<pre><code>## [1] 118.512</code></pre>
+<pre><code>## [1] 11851.2</code></pre>
 <p>¡Pues listo! Ya hemos calculado la tasa de emisión y/o absorción de nuestro sedimento, suelo o masa de agua.</p>
 
 </div>

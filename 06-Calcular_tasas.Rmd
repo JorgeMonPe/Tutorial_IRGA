@@ -20,7 +20,7 @@ Vamos a definir unos valores para este ejemplo.
 ```{r}
 #definimos las condiciones
 V_camara <- 1.171 #dm³
-S <- 0.78 #dm²
+S <- 0.0078 #m²
 
 Patm = 0.9905749 #atm #1003.7 #mBa
 Temp = 290.7 #Kelvin #17.7 #ºC
